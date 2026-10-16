@@ -1,0 +1,36 @@
+version: 2
+
+sources:
+  - name: ehrp
+    description: PeopleSoft HCM (EHRP) tables read by m_EHRP2BIIS_UPDATE through ORA_BIISPRD_SRC.
+    database: "{{ var('ehrp_database', target.database) }}"
+    schema: "{{ var('ehrp_schema', 'EHRP' if target.type == 'snowflake' else target.schema ~ '_ehrp') }}"
+    tables:
+      - name: ps_gvt_job
+        description: Government job rows (source of SQ_PS_GVT_JOB).
+      - name: ps_gvt_employment
+        description: lkp_PS_GVT_EMPLOYMENT - employment dates, tenure, probation.
+      - name: ps_gvt_pers_nid
+        description: lkp_PS_GVT_PERS_NID - national ID (SSN).
+      - name: ps_gvt_pers_data
+        description: lkp_PS_GVT_PERS_DATA - name, address, demographics.
+      - name: ps_gvt_awd_data
+        description: lkp_PS_GVT_AWD_DATA - awards and bonuses.
+      - name: ps_gvt_citizenship
+        description: lkp_PS_GVT_CITIZENSHIP - citizenship status.
+      - name: ps_he_fill_pos
+        description: lkp_PS_HE_FILL_POS - position filling code.
+      - name: ps_jpm_jp_items
+        description: lkp_PS_JPM_JP_ITEMS - degree / instructional program (profile items).
+      - name: ps_gvt_ee_data_trk
+        description: lkp_PS_GVT_EE_DATA_TRK - date the action was worked (event submitted date).
+
+  - name: nknight
+    description: BIIS staging schema (trigger table and event-ID high-water marks).
+    database: "{{ var('nknight_database', target.database) }}"
+    schema: "{{ var('nknight_schema', 'NKNIGHT' if target.type == 'snowflake' else target.schema ~ '_nknight') }}"
+    tables:
+      - name: nwk_new_ehrp_actions_tbl
+        description: Trigger table - one row per EHRP action (EMPLID, EMPL_RCD, EFFDT, EFFSEQ) to process.
+      - name: sequence_num_tbl
+        description: Last event-ID number used per EHRP year (lkp_OLD_SEQUENCE_NUMBER).

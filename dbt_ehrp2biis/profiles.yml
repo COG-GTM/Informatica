@@ -1,0 +1,22 @@
+ehrp2biis:
+  target: dev
+  outputs:
+    # Local, zero-credential target running on synthetic fixtures (seeds/dev_fixtures).
+    dev:
+      type: duckdb
+      path: "{{ env_var('DBT_DUCKDB_PATH', 'target/ehrp2biis.duckdb') }}"
+      schema: biis
+      threads: 4
+
+    snowflake:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD', '') }}"
+      private_key_path: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_PATH', '') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE', 'TRANSFORMER') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'TRANSFORMING') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE', 'BIIS') }}"
+      schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'INFO_TARGET') }}"
+      threads: 8
+      client_session_keep_alive: false

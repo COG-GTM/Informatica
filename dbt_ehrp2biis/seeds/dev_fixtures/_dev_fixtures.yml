@@ -1,0 +1,229 @@
+version: 2
+
+seeds:
+  - name: ps_gvt_job
+    config:
+      column_types:
+        emplid: varchar
+        empl_rcd: decimal(38, 0)
+        effdt: date
+        effseq: decimal(38, 0)
+        he_noa_ext: varchar
+        gvt_noa_code: varchar
+        gvt_wip_status: varchar
+        he_reg_military: decimal(38, 0)
+        he_spc_military: decimal(38, 0)
+        sal_admin_plan: varchar
+        gvt_rtnd_pay_plan: varchar
+        gvt_rtnd_grade: varchar
+        gvt_rtnd_step: decimal(38, 0)
+        he_pp_uded_amt: decimal(9, 2)
+        he_no_tsp_payper: decimal(38, 0)
+        he_tspa_sub_yr: decimal(7, 2)
+        he_emp_uded_amt: decimal(9, 2)
+        he_gvt_uded_amt: decimal(9, 2)
+        he_tltr_no: decimal(38, 0)
+        gvt_comprate: decimal(18, 6)
+        he_uded_pay_cd: varchar
+        he_tsp_canc_cd: varchar
+        gvt_par_auth_d1_2: varchar
+        gvt_leg_auth_2: varchar
+        gvt_par_auth_d2: varchar
+        gvt_par_auth_d2_2: varchar
+        gvt_locality_adj: decimal(8, 2)
+        he_awop_wigi: decimal(6, 2)
+        deptid: varchar
+        gvt_pay_basis: varchar
+        gvt_pay_plan: varchar
+        gvt_poi: varchar
+        jobcode: varchar
+        position_nbr: varchar
+        gvt_posn_occupied: varchar
+        gvt_pay_rate_deter: varchar
+        gvt_prev_ret_covrg: varchar
+        gvt_annuity_offset: decimal(10, 2)
+        gvt_retire_plan: varchar
+        comprate: decimal(18, 6)
+        gvt_hrly_rt_no_loc: decimal(18, 6)
+        he_sl_red_cred: decimal(5, 2)
+        he_sl_balance: decimal(6, 2)
+        he_sl_carryover: decimal(6, 2)
+        union_cd: varchar
+        he_frozen_sl: decimal(6, 2)
+        he_sl_total: decimal(6, 2)
+        gvt_step: varchar
+        step_entry_dt: date
+        gvt_work_sched: varchar
+        action: varchar
+        he_sl_accrual: decimal(5, 2)
+        company: varchar
+        gvt_sub_agency: varchar
+        flsa_status: varchar
+        gvt_csrs_frozn_svc: varchar
+        grade: varchar
+        hourly_rt: decimal(18, 6)
+        gvt_leg_auth_1: varchar
+        gvt_par_auth_d1: varchar
+        gvt_xfer_to_agcy: varchar
+        gvt_xfer_from_agcy: varchar
+        he_al_red_cred: decimal(5, 2)
+        he_al_balance: decimal(6, 2)
+        he_lump_hrs: decimal(38, 0)
+        he_al_carryover: decimal(6, 2)
+        he_res_lastyr: decimal(6, 2)
+        he_res_balance: decimal(6, 2)
+        he_res_twoyrs: decimal(6, 2)
+        he_res_threeyrs: decimal(6, 2)
+        he_al_accrual: decimal(5, 2)
+        he_al_total: decimal(5, 2)
+        annl_benef_base_rt: decimal(18, 3)
+        gvt_ann_ind: varchar
+        gvt_type_of_appt: varchar
+        he_awop_sep: decimal(6, 2)
+        barg_unit: varchar
+        std_hours: decimal(6, 2)
+        std_hrs_frequency: varchar
+        acct_cd: varchar
+        location: varchar
+        grade_entry_dt: date
+        gvt_fegli: varchar
+        gvt_fegli_living: varchar
+        gvt_living_amt: decimal(38, 0)
+        gvt_fers_coverage: varchar
+        gvt_status_type: varchar
+        action_reason: varchar
+        reg_temp: varchar
+        action_dt: date
+        setid_dept: varchar
+        gvt_par_nte_date: date
+        gvt_leo_position: varchar
+        gvt_effdt: date
+        paygroup: varchar
+        reports_to: varchar
+        position_entry_dt: date
+  - name: nwk_new_ehrp_actions_tbl
+    config:
+      column_types:
+        emplid: varchar
+        empl_rcd: decimal(38, 0)
+        effdt: date
+        effseq: decimal(38, 0)
+  - name: sequence_num_tbl
+    config:
+      column_types:
+        ehrp_year: decimal(4, 0)
+        ehrp_seq_number: decimal(10, 0)
+  - name: ps_gvt_employment
+    config:
+      column_types:
+        emplid: varchar
+        empl_rcd: decimal(38, 0)
+        effdt: date
+        effseq: decimal(38, 0)
+        gvt_cnv_begin_date: date
+        gvt_temp_psn_expir: date
+        gvt_appt_limit_dys: decimal(38, 0)
+        hire_dt: date
+        gvt_spep: varchar
+        gvt_supv_prob_dt: date
+        gvt_appt_expir_dt: date
+        last_increase_dt: date
+        gvt_comp_lvl_perm: varchar
+        gvt_detail_expires: date
+        gvt_temp_pro_expir: date
+        gvt_tenure: varchar
+        gvt_wgi_status: varchar
+        service_dt: date
+        gvt_scd_retire: date
+        gvt_scd_tsp: date
+        gvt_rtnd_grade_beg: date
+        gvt_rtnd_grade_exp: date
+        gvt_sabbatic_expir: date
+        gvt_curr_apt_auth1: varchar
+        gvt_curr_apt_auth2: varchar
+        cmpny_seniority_dt: date
+        business_title: varchar
+        gvt_appt_limit_hrs: decimal(38, 0)
+        probation_dt: date
+        gvt_scd_leo: date
+        gvt_wgi_due_date: date
+  - name: ps_gvt_pers_nid
+    config:
+      column_types:
+        emplid: varchar
+        empl_rcd: decimal(38, 0)
+        effdt: date
+        effseq: decimal(38, 0)
+        national_id: varchar
+  - name: ps_gvt_pers_data
+    config:
+      column_types:
+        emplid: varchar
+        empl_rcd: decimal(38, 0)
+        effdt: date
+        effseq: decimal(38, 0)
+        birthdate: date
+        first_name: varchar
+        last_name: varchar
+        middle_name: varchar
+        state: varchar
+        postal: varchar
+        address1: varchar
+        gvt_disability_cd: varchar
+        ethnic_group: varchar
+        gvt_vet_pref_appt: varchar
+        military_status: varchar
+        gvt_mil_resrve_cat: varchar
+        geo_code: varchar
+        sex: varchar
+        gvt_military_comp: varchar
+        gvt_cred_mil_svce: varchar
+        city: varchar
+  - name: ps_gvt_awd_data
+    config:
+      column_types:
+        emplid: varchar
+        empl_rcd: decimal(38, 0)
+        effdt: date
+        effseq: decimal(38, 0)
+        goal_amt: decimal(10, 2)
+        oth_hrs: decimal(6, 2)
+        earnings_end_dt: date
+        erncd: varchar
+        gvt_tang_ben_amt: decimal(38, 0)
+        oth_pay: decimal(10, 2)
+  - name: ps_gvt_citizenship
+    config:
+      column_types:
+        emplid: varchar
+        empl_rcd: decimal(38, 0)
+        effdt: date
+        effseq: decimal(38, 0)
+        citizenship_status: varchar
+  - name: ps_he_fill_pos
+    config:
+      column_types:
+        emplid: varchar
+        empl_rcd: decimal(38, 0)
+        effdt: date
+        effseq: decimal(38, 0)
+        he_fill_position: varchar
+  - name: ps_gvt_ee_data_trk
+    config:
+      column_types:
+        emplid: varchar
+        empl_rcd: decimal(38, 0)
+        effdt: date
+        effseq: decimal(38, 0)
+        gvt_wip_status: varchar
+        gvt_date_wrk: date
+  - name: ps_jpm_jp_items
+    config:
+      column_types:
+        jpm_profile_id: varchar
+        jpm_cat_type: varchar
+        eff_status: varchar
+        effdt: date
+        major_code: varchar
+        jpm_cat_item_id: varchar
+        jpm_integer_2: decimal(38, 0)

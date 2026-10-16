@@ -1,0 +1,53 @@
+name: ehrp2biis
+version: "1.0.0"
+config-version: 2
+profile: ehrp2biis
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+analysis-paths: ["analyses"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+vars:
+  # Business date of the run (Informatica: TRUNC(SYSDATE)). Pin it (e.g. '2026-02-27') for replays/parity runs.
+  load_date: null
+  # high_water_mark (default, mirrors lkp_OLD_SEQUENCE_NUMBER + exp_MAIN2BIIS) | snowflake_sequence
+  event_id_strategy: high_water_mark
+  event_id_sequence_name: EHRP_EVENT_ID_SEQ
+  # When true, on-run-end mirrors the afterload side effects on the source schemas:
+  # advance NKNIGHT.SEQUENCE_NUM_TBL and truncate NKNIGHT.NWK_NEW_EHRP_ACTIONS_TBL.
+  apply_post_load_side_effects: false
+  # Optional: schema holding the legacy Informatica targets (e.g. INFO_TARGET_DEV) for side-by-side counts.
+  legacy_target_schema: null
+  legacy_target_database: null
+
+on-run-start:
+  - "{{ create_event_id_sequence() }}"
+on-run-end:
+  - "{{ advance_event_id_high_water_mark(results) }}"
+  - "{{ truncate_trigger_table(results) }}"
+
+models:
+  ehrp2biis:
+    staging:
+      +materialized: view
+    intermediate:
+      # tables, so the event IDs are assigned once and shared by every mart
+      +materialized: table
+    marts:
+      +materialized: table
+    validation:
+      +materialized: table
+
+seeds:
+  ehrp2biis:
+    dev_fixtures:
+      # synthetic EHRP/NKNIGHT source tables for the local DuckDB target only
+      +enabled: "{{ target.type == 'duckdb' }}"
+      ehrp:
+        +schema: ehrp
+      nknight:
+        +schema: nknight

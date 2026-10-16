@@ -17,8 +17,9 @@ vars:
   # high_water_mark (default, mirrors lkp_OLD_SEQUENCE_NUMBER + exp_MAIN2BIIS) | snowflake_sequence
   event_id_strategy: high_water_mark
   event_id_sequence_name: EHRP_EVENT_ID_SEQ
-  # When true, on-run-end mirrors the afterload side effects on the source schemas:
-  # advance NKNIGHT.SEQUENCE_NUM_TBL and truncate NKNIGHT.NWK_NEW_EHRP_ACTIONS_TBL.
+  # When true, on-run-end mirrors the afterload side effects on the source schemas, in one transaction and
+  # only after a run that built every pipeline model: advance NKNIGHT.SEQUENCE_NUM_TBL and empty
+  # NKNIGHT.NWK_NEW_EHRP_ACTIONS_TBL.
   apply_post_load_side_effects: false
   # Optional: schema holding the legacy Informatica targets (e.g. INFO_TARGET_DEV) for side-by-side counts.
   legacy_target_schema: null
@@ -27,8 +28,7 @@ vars:
 on-run-start:
   - "{{ create_event_id_sequence() }}"
 on-run-end:
-  - "{{ advance_event_id_high_water_mark(results) }}"
-  - "{{ truncate_trigger_table(results) }}"
+  - "{{ finalize_batch(results) }}"
 
 models:
   ehrp2biis:

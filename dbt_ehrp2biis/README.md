@@ -41,8 +41,7 @@ flowchart LR
 | afterload: `insert into action_primary_all / action_secondary_all ... where load_date = trunc(sysdate)` | `marts/hist_action_primary`, `marts/hist_action_secondary` (incremental, `delete+insert` on `event_id`) |
 | afterload step 04: `retnd1_step_cd = NULL` where it is `'0.0000000000000'` and `event_id < 9000000000` | built into `fct_action_secondary.retnd1_step_cd` |
 | afterload "update cancelled actions": delete and re-insert today's re-delivered events in `*_ALL` | the `delete+insert` on `event_id` in the hist models |
-| afterload `update_sequence_number_tbl_p` | `on-run-end` → `advance_event_id_high_water_mark` (opt-in, see below) |
-| afterload `truncate table nknight.nwk_new_ehrp_actions_tbl` | `on-run-end` → `truncate_trigger_table` (opt-in) |
+| afterload `update_sequence_number_tbl_p` + `truncate table nknight.nwk_new_ehrp_actions_tbl` | `on-run-end` → `finalize_batch` (opt-in): one transaction, only after a run that built every pipeline model |
 | Session: commit interval 10,000, 3 targets loaded in parallel | Each mart is built in one Snowflake transaction (`create or replace table as select`), and the three marts build in parallel threads |
 
 ### Generated marts
@@ -129,7 +128,7 @@ Because of that:
 - **WIP status changes.** `PROCESS_TABLE.P_STARTDT` and `BIIS_WIP_STATUS_CHANGED_DT` are maintained by
   `chk_ehrp2biis_wip_status_p`, so they are not reproduced either.
 - **Sequence update.** The body of `update_sequence_number_tbl_p` isn't in the repo.
-  `advance_event_id_high_water_mark` assumes it stores the highest regular event ID (< 9,000,000,000) per
+  `finalize_batch` assumes it stores the highest regular event ID (< 9,000,000,000) per
   `EFFDT` year. Confirm against the real procedure before turning on `apply_post_load_side_effects`.
 - **`actstage_load`.** It runs `action_stage_load.sql`, which is not in the repository either.
 
@@ -175,7 +174,7 @@ dbt build --profiles-dir . --target snowflake --vars '{apply_post_load_side_effe
 dbt build --profiles-dir . --target snowflake --vars '{legacy_target_schema: INFO_TARGET_DEV}'
 ```
 
-The `on-run-end` side effects run only after `dbt run` / `dbt build`, and only if every node succeeded.
+The `on-run-end` side effects (`finalize_batch`) run only after a `dbt run` / `dbt build` that built every pipeline model with no failures (a partial `--select` never finalizes a batch). The sequence update and the trigger-table delete commit together.
 
 ## Validation
 
